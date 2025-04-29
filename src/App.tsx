@@ -1,15 +1,15 @@
 import { ThemeProvider } from "@/components/provider/theme-provider"
 import { TopNavbar } from "./components/app/top-navbar"
-
+import CodeEditor from "./components/code-editor/code-editor"
 
 function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <div>
-        <div className="flex my-3 mx-5">
+        <div className="">
           <TopNavbar />
         </div>
-        {/* <Button>Button</Button> */}
+        <CodeEditor />
       </div>
     </ThemeProvider>
   )
