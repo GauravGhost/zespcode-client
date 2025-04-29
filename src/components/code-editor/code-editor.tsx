@@ -1,6 +1,6 @@
-import Editor from '@monaco-editor/react';
-import * as monaco from 'monaco-editor';
+import Editor, { OnMount } from '@monaco-editor/react';
 import { useState } from 'react';
+import { Language, Theme } from './types';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 
-const LANGUAGES = [
+const LANGUAGES: Language[] = [
     { id: 'javascript', name: 'JavaScript' },
     { id: 'typescript', name: 'TypeScript' },
     { id: 'python', name: 'Python' },
@@ -18,14 +18,14 @@ const LANGUAGES = [
     { id: 'csharp', name: 'C#' },
 ];
 
-const THEMES = [
+const THEMES: Theme[] = [
     { id: 'vs-dark', name: 'Dark' },
     { id: 'light', name: 'Light' },
     { id: 'hc-black', name: 'High Contrast Dark' },
     { id: 'hc-light', name: 'High Contrast Light' },
 ];
 
-const DEFAULT_CODE_BY_LANGUAGE = {
+const DEFAULT_CODE_BY_LANGUAGE: Record<Language['id'], string> = {
     javascript: '// Write your JavaScript code here\n\nfunction example() {\n  console.log("Hello World!");\n}\n',
     typescript: '// Write your TypeScript code here\n\nfunction example(): void {\n  console.log("Hello World!");\n}\n',
     python: '# Write your Python code here\n\ndef example():\n    print("Hello World!")\n',
@@ -35,9 +35,9 @@ const DEFAULT_CODE_BY_LANGUAGE = {
 };
 
 const CodeEditor = () => {
-    const [language, setLanguage] = useState(LANGUAGES[0]);
-    const [theme, setTheme] = useState(THEMES[0]);
-    const [code, setCode] = useState(DEFAULT_CODE_BY_LANGUAGE[language.id as keyof typeof DEFAULT_CODE_BY_LANGUAGE]);
+    const [language, setLanguage] = useState<Language>(LANGUAGES[0]);
+    const [theme, setTheme] = useState<Theme>(THEMES[0]);
+    const [code, setCode] = useState(DEFAULT_CODE_BY_LANGUAGE[language.id]);
 
     function handleEditorChange(value: string | undefined) {
         if (value !== undefined) {
@@ -45,12 +45,12 @@ const CodeEditor = () => {
         }
     }
 
-    function handleLanguageChange(newLang: typeof LANGUAGES[0]) {
+    function handleLanguageChange(newLang: Language) {
         setLanguage(newLang);
-        setCode(DEFAULT_CODE_BY_LANGUAGE[newLang.id as keyof typeof DEFAULT_CODE_BY_LANGUAGE]);
+        setCode(DEFAULT_CODE_BY_LANGUAGE[newLang.id]);
     }
 
-    function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor) {
+    function handleEditorDidMount(editor: Parameters<OnMount>[0]) {
         editor.focus();
     }
 
