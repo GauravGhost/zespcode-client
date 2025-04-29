@@ -55,7 +55,7 @@ const CodeEditor = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4 p-4">
+        <div className="flex flex-col gap-4 p-4 h-full">
             <div className="flex items-center gap-4">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
@@ -90,22 +90,25 @@ const CodeEditor = () => {
                 </DropdownMenu>
             </div>
 
-            <Editor
-                height="80vh"
-                language={language.id}
-                theme={theme.id}
-                value={code}
-                onChange={handleEditorChange}
-                onMount={handleEditorDidMount}
-                options={{
-                    minimap: { enabled: false },
-                    fontSize: 14,
-                    lineNumbers: 'on',
-                    roundedSelection: false,
-                    scrollBeyondLastLine: false,
-                    automaticLayout: true,
-                }}
-            />
+            <div className="h-full overflow-auto">
+                <Editor
+                    height={"100%"}
+                    language={language.id}
+                    theme={theme.id}
+                    value={code}
+                    onChange={handleEditorChange}
+                    onMount={handleEditorDidMount}
+                    options={{
+                        
+                        minimap: { enabled: false },
+                        fontSize: 14,
+                        lineNumbers: 'on',
+                        roundedSelection: false,
+                        scrollBeyondLastLine: true,
+                        automaticLayout: true,
+                    }}
+                />
+            </div>
         </div>
     );
 }
