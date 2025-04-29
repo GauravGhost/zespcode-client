@@ -28,13 +28,13 @@ const MarkdownViewer = ({ content }: MarkdownViewerProps) => {
   
   return (
     <div 
-      className="h-full overflow-auto p-4"
-      style={{ 
+      className="h-full overflow-auto p-4 pb-10"
+      style={{
         color: isDarkTheme ? '#e0e0e0' : '#333333',
         backgroundColor: isDarkTheme ? '#1e1e1e' : '#ffffff'
       }}
     >
-      <div className="markdown-content markdownViewer">
+      <div className="markdown-content">
         <ReactMarkdown rehypePlugins={[rehypeRaw]} >
           {sanitizedMarkdown}
         </ReactMarkdown>

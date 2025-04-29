@@ -66,7 +66,7 @@ const Problem = () => {
                 </div>
             </ResizablePanel>
 
-            <ResizableHandle />
+            <ResizableHandle withHandle className="p-[1.5px]"/>
 
             {/* Code + Output */}
             <ResizablePanel defaultSize={50} className="overflow-auto">
@@ -77,7 +77,7 @@ const Problem = () => {
                         <CodeEditor />
                     </ResizablePanel>
 
-                    <ResizableHandle />
+                    <ResizableHandle withHandle className="p-[1.5px]"/>
 
                     {/* Output Section */}
                     <ResizablePanel defaultSize={25} className="overflow-auto">
