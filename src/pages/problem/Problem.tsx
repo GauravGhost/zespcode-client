@@ -24,6 +24,14 @@ const Problem = () => {
         icon: "BookOpenCheck",
         content: "solutions"
     }]
+    const codeEditorTab: TabItem[] = [{
+        id: "Code", label: "Code", icon: "Code2", content: <CodeEditor />,
+    }]
+
+    const outputTab: TabItem[] = [
+        { id: "test-case", label: "Test Case", icon: "Terminal", content: "test case" },
+        { id: "test-result", label: "Test Result", icon: "CheckCircle", content: "test result" }
+    ]
     return (
         <ResizablePanelGroup
             direction="horizontal"
@@ -31,7 +39,7 @@ const Problem = () => {
         >
             {/* Problem statement */}
             <ResizablePanel defaultSize={50} className="overflow-auto">
-                <div className="p-4 h-full">
+                <div className="p-1 h-full">
                     <ProblemPageTab tabs={problemTabs} />
                 </div>
             </ResizablePanel >
@@ -44,15 +52,17 @@ const Problem = () => {
 
                     {/* Code Editor */}
                     <ResizablePanel defaultSize={75} className="overflow-auto h-full">
-                        <CodeEditor />
+                        <div className="p-1 h-full">
+                            <ProblemPageTab tabs={codeEditorTab} />
+                        </div>
                     </ResizablePanel>
 
                     <ResizableHandle withHandle className="p-[1.5px]" />
 
                     {/* Output Section */}
                     <ResizablePanel defaultSize={25} className="overflow-auto h-full">
-                        <div className="h-full overflow-auto p-6">
-                            <span className="font-semibold">Output</span>
+                        <div className="p-1 h-full">
+                            <ProblemPageTab tabs={outputTab} />
                         </div>
                     </ResizablePanel>
 

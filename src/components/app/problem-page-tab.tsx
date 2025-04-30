@@ -22,7 +22,6 @@ const ProblemPageTab = ({
     defaultTab,
     className = "h-full"
 }: ProblemPageTabProps) => {
-    // If defaultTab is not provided or doesn't match any tab id, use the first tab
     const activeDefaultTab = defaultTab && tabs.some(tab => tab.id === defaultTab)
         ? defaultTab
         : tabs[0]?.id
