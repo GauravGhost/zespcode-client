@@ -12,6 +12,7 @@ import {
 
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "./mode-toggle"
+import ProfileMenu from "./profile-menu"
 
 export function TopNavbar() {
     return (
@@ -26,7 +27,10 @@ export function TopNavbar() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
-            <ModeToggle />
+            <div className="flex items-center space-x-4">
+                <ModeToggle />
+                <ProfileMenu />
+            </div>
         </div>
     )
 }
