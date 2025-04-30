@@ -2,13 +2,14 @@ import Editor, { OnMount } from '@monaco-editor/react';
 import { useState } from 'react';
 import { Language, Theme } from './types';
 import {
-    DropdownMenu,
-    DropdownMenuContent,
-    DropdownMenuItem,
-    DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 import { DEFAULT_CODE_BY_LANGUAGE, LANGUAGES, THEMES } from '@/lib/constant';
+import { Separator } from '../ui/separator';
 
 const CodeEditor = () => {
     const [language, setLanguage] = useState<Language>(LANGUAGES[0]);
@@ -31,41 +32,41 @@ const CodeEditor = () => {
     }
 
     return (
-        <div className="flex flex-col gap-4 p-4 h-full">
-            <div className="flex items-center gap-4">
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">{language.name}</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+        <div className="flex flex-col h-full">
+            <div className="flex items-center gap-2 py-1 px-2">
+                <Select value={language.id} onValueChange={(value) => handleLanguageChange(LANGUAGES.find(lang => lang.id === value)!)}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={language.name} />
+                    </SelectTrigger >
+                    <SelectContent>
                         {LANGUAGES.map((lang) => (
-                            <DropdownMenuItem
+                            <SelectItem
                                 key={lang.id}
-                                onClick={() => handleLanguageChange(lang)}
+                                value={lang.id}
                             >
                                 {lang.name}
-                            </DropdownMenuItem>
+                            </SelectItem >
                         ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    </SelectContent>
+                </Select>
 
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="outline">{theme.name}</Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent>
+                <Select value={theme.id} onValueChange={(value) => setTheme(THEMES.find(t => t.id === value)!)}>
+                    <SelectTrigger>
+                        <SelectValue placeholder={theme.name} />
+                    </SelectTrigger >
+                    <SelectContent>
                         {THEMES.map((t) => (
-                            <DropdownMenuItem
+                            <SelectItem
                                 key={t.id}
-                                onClick={() => setTheme(t)}
+                                value={t.id}
                             >
                                 {t.name}
-                            </DropdownMenuItem>
+                            </SelectItem>
                         ))}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                    </SelectContent>
+                </Select>
             </div>
-
+            <Separator />
             <div className="h-full overflow-auto">
                 <Editor
                     height={"100%"}
@@ -75,7 +76,7 @@ const CodeEditor = () => {
                     onChange={handleEditorChange}
                     onMount={handleEditorDidMount}
                     options={{
-                        
+                        padding: { top: 8 },
                         minimap: { enabled: false },
                         fontSize: 14,
                         lineNumbers: 'on',
