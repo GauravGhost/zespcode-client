@@ -77,3 +77,9 @@ export const topics = [
     {id: 1, name: "Array"},
     {id: 2, name: "Hash Table"},
 ]
+
+export const problemStatementMenuData = [
+    { id: 1, name: "Description", onclick: () => console.log("Description") },
+    { id: 2, name: "Solutions", onclick: () => console.log("Solutions") },
+    { id: 3, name: "Submissions", onclick: () => console.log("Submissions") }
+]
