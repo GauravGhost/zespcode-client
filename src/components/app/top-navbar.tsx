@@ -13,6 +13,8 @@ import {
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "./mode-toggle"
 import ProfileMenu from "./profile-menu"
+import { Button } from "../ui/button"
+import { Icon } from "../ui/icon"
 
 export function TopNavbar() {
     return (
@@ -27,6 +29,10 @@ export function TopNavbar() {
                     </NavigationMenuItem>
                 </NavigationMenuList>
             </NavigationMenu>
+            <div className="flex items-center space-x-0.5">
+                <Button className="cursor-pointer"><Icon name="Play"/> Run</Button>
+                <Button className="cursor-pointer"><Icon name="UploadCloudIcon"/> Submit</Button>
+            </div>
             <div className="flex items-center space-x-4">
                 <ModeToggle />
                 <ProfileMenu />
