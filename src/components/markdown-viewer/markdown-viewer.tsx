@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useTheme } from '../provider/theme-provider';
 import ReactMarkdown from 'react-markdown';
 import DOMPurify from 'dompurify';
 import rehypeRaw from 'rehype-raw';
@@ -10,9 +9,10 @@ import { hintContent, topics } from '@/lib/constant';
 
 interface MarkdownViewerProps {
   content: string;
+  title: string;
 }
 
-const MarkdownViewer = ({ content }: MarkdownViewerProps) => {
+const MarkdownViewer = ({ content, title }: MarkdownViewerProps) => {
 
   const [markdownContent, setMarkdownContent] = useState(content);
 
@@ -27,17 +27,12 @@ const MarkdownViewer = ({ content }: MarkdownViewerProps) => {
     setMarkdownContent(content);
   }, [content]);
 
-  // Determine text color based on theme
-  const isDarkTheme = useTheme().theme === 'dark'
-
   return (
     <div
-      className="h-[calc(100%-1.7rem)] overflow-auto p-4 pb-10"
-      style={{
-        color: isDarkTheme ? '#e0e0e0' : '#333333',
-        backgroundColor: isDarkTheme ? '#1e1e1e' : '#ffffff'
-      }}
-    >
+      className="h-[calc(100%-1.7rem)] overflow-auto p-4 pb-10">
+      <div>
+        <h1 className='text-2xl font-semibold mb-4'>{title}</h1>
+      </div>
       <div className='flex items-center justify-start mb-4 gap-2'>
         <Badge variant={'outline'} className='rounded-full px-3 py-1 text-easy bg-muted'>Easy</Badge>
         <Badge variant={'outline'} className='rounded-full px-3 py-1'><Icon name='TagIcon' /> Topics</Badge>
@@ -53,7 +48,7 @@ const MarkdownViewer = ({ content }: MarkdownViewerProps) => {
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value={`item-1`} className='border-b'>
             <AccordionTrigger className='hover:no-underline cursor-pointer'>
-            <div className='flex gap-5 items-center '><Icon name='TagIcon' className='h-4 w-4' />{"Topics"}</div>
+              <div className='flex gap-5 items-center '><Icon name='TagIcon' className='h-4 w-4' />{"Topics"}</div>
             </AccordionTrigger>
             <AccordionContent className='ml-10 gap-2 flex'>{topics.map(item => <Badge className='rounded-full px-3 py-1' variant={'secondary'} key={item.id}>{item.name}</Badge>)}</AccordionContent>
           </AccordionItem>

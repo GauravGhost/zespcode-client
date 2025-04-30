@@ -1,19 +1,29 @@
+import ProblemPageTab, { TabItem } from "@/components/app/problem-page-tab"
 import CodeEditor from "@/components/code-editor/code-editor"
 import MarkdownViewer from "@/components/markdown-viewer/markdown-viewer"
-import { Icon } from "@/components/ui/icon"
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { Separator } from "@/components/ui/separator"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { sampleMarkdown } from "@/lib/constant"
 import { useState } from "react"
 
 
 const Problem = () => {
     const [markdownContent] = useState(sampleMarkdown);
+    const problemTabs: TabItem[] = [{
+        id: "Description",
+        label: "Description",
+        icon: "NotepadText",
+        content: <MarkdownViewer content={markdownContent} title={"Two Sum"} />,
+    },
+    {
+        id: "Solution",
+        label: "Solution",
+        icon: "BookOpenCheck",
+        content: "solutions"
+    }]
     return (
         <ResizablePanelGroup
             direction="horizontal"
@@ -21,20 +31,8 @@ const Problem = () => {
         >
             {/* Problem statement */}
             <ResizablePanel defaultSize={50} className="overflow-auto">
-                <div className="p-4 h-full rounded-lg">
-                    <Tabs defaultValue="Description" className="h-full">
-                        <div className="items-center flex bg-muted rounded-t-lg">
-                            <TabsList className="h-10 gap-1">
-                                <TabsTrigger className="cursor-pointer border-none hover:bg-gray-200 dark:hover:bg-gray-700 rounded-sm" value="Description"><Icon name="NotepadText" /> Description</TabsTrigger>
-                                <Separator orientation="vertical" className="data-[orientation=vertical]:h-4" />
-                                <TabsTrigger className="cursor-pointer border-none hover:bg-gray-200 dark:hover:bg-gray-700 rounded-sm" value="Solution"><Icon name="BookOpenCheck" /> Solution</TabsTrigger>
-                                <Separator orientation="vertical" className="data-[orientation=vertical]:h-4" />
-                                <TabsTrigger className="cursor-pointer border-none hover:bg-gray-200 dark:hover:bg-gray-700 rounded-sm" value="Solution"><Icon name="BookOpenCheck" /> Solution</TabsTrigger>
-                            </TabsList>
-                        </div>
-                        <TabsContent value="Description" className="h-full"><MarkdownViewer content={markdownContent} /></TabsContent>
-                        <TabsContent value="Solution" className="h-full">Solution</TabsContent>
-                    </Tabs>
+                <div className="p-4 h-full">
+                    <ProblemPageTab tabs={problemTabs} />
                 </div>
             </ResizablePanel >
 
