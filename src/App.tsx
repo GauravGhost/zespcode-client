@@ -7,10 +7,10 @@ function App() {
   return (
     <ThemeProvider defaultTheme="light" storageKey="vite-ui-theme">
       <div className="flex flex-col h-screen">
-        <div>
+        <div className="flex item-center h-[8vh]">
           <TopNavbar />
         </div>
-        <div className="flex-1 overflow-hidden">
+        <div className="overflow-hidden h-[92vh]">
           <Problem />
         </div>
       </div>

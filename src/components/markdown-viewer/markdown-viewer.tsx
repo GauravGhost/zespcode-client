@@ -28,7 +28,7 @@ const MarkdownViewer = ({ content }: MarkdownViewerProps) => {
   
   return (
     <div 
-      className="h-full overflow-auto p-4 pb-10"
+      className="h-[calc(100%-1.7rem)] overflow-auto p-4 pb-10"
       style={{
         color: isDarkTheme ? '#e0e0e0' : '#333333',
         backgroundColor: isDarkTheme ? '#1e1e1e' : '#ffffff'

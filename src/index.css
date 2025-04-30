@@ -194,4 +194,21 @@
   .markdown-content hr {
     @apply border-t border-border my-6;
   }
+
+  /* Scrollbar styles */
+  *::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  *::-webkit-scrollbar-track {
+    @apply bg-secondary/20;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-secondary rounded-full;
+  }
+
+  *::-webkit-scrollbar-thumb:hover {
+    @apply bg-secondary/80;
+  }
 }
