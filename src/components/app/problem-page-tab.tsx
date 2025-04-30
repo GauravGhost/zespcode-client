@@ -34,7 +34,7 @@ const ProblemPageTab = ({
                         <>
                             <TabsTrigger
                                 key={`tab-${tab.id}`}
-                                className="cursor-pointer border-none hover:bg-gray-200 dark:hover:bg-gray-700 rounded-sm"
+                                className="cursor-pointer border-none hover:bg-hover rounded-sm"
                                 value={tab.id}
                             >
                                 {tab.icon && <Icon name={tab.icon} className="mr-1" />} {tab.label}
