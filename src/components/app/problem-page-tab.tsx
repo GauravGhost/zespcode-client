@@ -8,6 +8,7 @@ export type TabItem = {
     id: string
     label: string
     icon?: keyof typeof LucideIcons
+    iconColor?: string
     content: ReactNode | string
 }
 
@@ -37,7 +38,7 @@ const ProblemPageTab = ({
                                 className="cursor-pointer border-none hover:bg-hover rounded-sm"
                                 value={tab.id}
                             >
-                                {tab.icon && <Icon name={tab.icon} className="mr-1" />} {tab.label}
+                                {tab.icon && <Icon color={tab.iconColor} name={tab.icon} className="mr-1" />} {tab.label}
                             </TabsTrigger>
                             {index < tabs.length - 1 && (
                                 <Separator

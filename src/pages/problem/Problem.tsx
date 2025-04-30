@@ -16,21 +16,23 @@ const Problem = () => {
         id: "Description",
         label: "Description",
         icon: "NotepadText",
+        iconColor: "text-sky-500",
         content: <MarkdownViewer content={markdownContent} title={"Two Sum"} />,
     },
     {
         id: "Solution",
         label: "Solution",
         icon: "BookOpenCheck",
+        iconColor: "text-yellow-500",
         content: "solutions"
     }]
     const codeEditorTab: TabItem[] = [{
-        id: "Code", label: "Code", icon: "Code2", content: <CodeEditor />,
+        id: "Code", label: "Code", icon: "Code2", iconColor: "text-green-500", content: <CodeEditor />,
     }]
 
     const outputTab: TabItem[] = [
-        { id: "test-case", label: "Test Case", icon: "Terminal", content: "test case" },
-        { id: "test-result", label: "Test Result", icon: "CheckCircle", content: "test result" }
+        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: "test case" },
+        { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: "test result" }
     ]
     return (
         <ResizablePanelGroup
