@@ -6,7 +6,6 @@ import {
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { ScrollArea } from "@/components/ui/scroll-area"
 import { sampleMarkdown } from "@/lib/constant"
 import { useState } from "react"
 
@@ -41,23 +40,21 @@ const Problem = () => {
             className="rounded-lg border h-full w-full"
         >
             {/* Problem statement */}
-            <ResizablePanel defaultSize={50}>
-                <ScrollArea className="h-full">
-                    <div className="p-1">
-                        <ProblemPageTab tabs={problemTabs} />
-                    </div>
-                </ScrollArea>
-            </ResizablePanel>
+            <ResizablePanel defaultSize={50} className="overflow-auto">
+                <div className="p-1 h-full">
+                    <ProblemPageTab tabs={problemTabs} />
+                </div>
+            </ResizablePanel >
 
             <ResizableHandle withHandle className="p-[1.5px]" />
 
             {/* Code + Output */}
-            <ResizablePanel defaultSize={50}>
+            <ResizablePanel defaultSize={50} className="overflow-auto">
                 <ResizablePanelGroup direction="vertical" className="h-full">
 
                     {/* Code Editor */}
-                    <ResizablePanel defaultSize={75}>
-                        <div className="h-full p-1">
+                    <ResizablePanel defaultSize={75} className="overflow-auto h-full">
+                        <div className="p-1 h-full">
                             <ProblemPageTab tabs={codeEditorTab} />
                         </div>
                     </ResizablePanel>
@@ -65,12 +62,10 @@ const Problem = () => {
                     <ResizableHandle withHandle className="p-[1.5px]" />
 
                     {/* Output Section */}
-                    <ResizablePanel defaultSize={25}>
-                        <ScrollArea className="h-full">
-                            <div className="p-1">
-                                <ProblemPageTab tabs={outputTab} />
-                            </div>
-                        </ScrollArea>
+                    <ResizablePanel defaultSize={25} className="overflow-auto h-full">
+                        <div className="p-1 h-full">
+                            <ProblemPageTab tabs={outputTab} />
+                        </div>
                     </ResizablePanel>
 
                 </ResizablePanelGroup>
