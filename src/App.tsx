@@ -1,7 +1,7 @@
 import { ThemeProvider } from "@/components/provider/theme-provider"
 import { TopNavbar } from "./components/app/top-navbar"
 // import CodeEditor from "./components/code-editor/code-editor"
-// import Problem from "./pages/problem/Problem"
+import Problem from "./pages/problem/Problem"
 import ProblemList from "./pages/problem-list/ProblemList"
 
 function App() {
@@ -12,8 +12,8 @@ function App() {
           <TopNavbar />
         </div>
         <div className="overflow-hidden h-[92vh]">
-          {/* <Problem /> */}
-          <ProblemList />
+          <Problem />
+          {/* <ProblemList /> */}
         </div>
       </div>
     </ThemeProvider>
