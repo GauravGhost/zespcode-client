@@ -1,6 +1,9 @@
 import { useState, useEffect, useRef } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
 import QuestionCard, { Question } from './QuestionCard';
+import { GET_ALL_PROBLEM_LIST } from '@/api';
+import useGetApi from '@/hooks/useGetApi';
+import { ProblemListResponse } from '@/types';
 
 
 const LoadingDots = () => (
@@ -18,6 +21,8 @@ const ProblemList = () => {
   const [hasMore, setHasMore] = useState(true);
   const loaderRef = useRef(null);
 
+  const problemListResponse = useGetApi<ProblemListResponse>(GET_ALL_PROBLEM_LIST());
+  console.log(problemListResponse);
   const fetchQuestions = async (pageNum: number) => {
     setLoading(true);
     await new Promise(resolve => setTimeout(resolve, 1500));
