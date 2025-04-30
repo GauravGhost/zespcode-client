@@ -30,8 +30,8 @@ export function TopNavbar() {
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center space-x-0.5">
-                <Button className="cursor-pointer"><Icon name="Play"/> Run</Button>
-                <Button className="cursor-pointer"><Icon name="UploadCloudIcon"/> Submit</Button>
+                <Button className="cursor-pointer bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground"><Icon name="Play" /> Run</Button>
+                <Button className="cursor-pointer bg-muted text-easy hover:bg-hover"><Icon name="UploadCloudIcon" /> Submit</Button>
             </div>
             <div className="flex items-center space-x-4">
                 <ModeToggle />

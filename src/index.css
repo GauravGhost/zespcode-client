@@ -10,6 +10,7 @@
   --radius-xl: calc(var(--radius) + 4px);
   --color-background: var(--background);
   --color-secondary-background: var(--secondaryBackground);
+  --color-hover: var(--hover);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
   --color-card-foreground: var(--card-foreground);
@@ -49,6 +50,7 @@
   --radius: 0.625rem;
   --background: oklch(1 0 0);
   --secondaryBackground: oklch(1 0 0);
+  --hover: oklch(92% 0.004 286.32);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
@@ -87,6 +89,7 @@
 .dark {
   --background: oklch(0.145 0 0);
   --secondaryBackground: oklch(0.24 0 0);
+  --hover: oklch(37% 0.013 285.805);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
   --card-foreground: oklch(0.985 0 0);
