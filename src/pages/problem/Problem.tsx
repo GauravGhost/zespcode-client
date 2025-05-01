@@ -1,31 +1,29 @@
 import ProblemPageTab, { TabItem } from "@/components/app/problem-page-tab"
 import CodeEditor from "@/components/code-editor/code-editor"
-import MarkdownViewer from "@/components/markdown-viewer/markdown-viewer"
 import { ProblemSkeleton } from "@/components/loader/problem-skeleton"
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
-import { sampleMarkdown } from "@/lib/constant"
-import { useEffect, useState } from "react"
+import { useParams } from "react-router"
+import { ProblemData } from "@/types"
+import useGetApi from "@/hooks/useGetApi"
+import { GET_PROBLEM_BY_TITLE_SLUG } from "@/api"
+import ProblemStatement from "./ProblemStatement"
 
 
 const Problem = () => {
-    const [isLoading, setIsLoading] = useState(true);
-    const [markdownContent] = useState(sampleMarkdown);
+    const { id } = useParams();
+    const problemDetailResponse = useGetApi<ProblemData>(GET_PROBLEM_BY_TITLE_SLUG(id));
+    const problemDetail = problemDetailResponse.data
 
-    // Simulate loading for demo purposes
-    useEffect(() => {
-        const timer = setTimeout(() => setIsLoading(false), 2000);
-        return () => clearTimeout(timer);
-    }, []);
     const problemTabs: TabItem[] = [{
         id: "Description",
         label: "Description",
         icon: "NotepadText",
         iconColor: "text-sky-500",
-        content: <MarkdownViewer content={markdownContent} title={"Two Sum"} />,
+        content: <ProblemStatement problemData={problemDetail} />,
     },
     {
         id: "Solution",
@@ -42,9 +40,12 @@ const Problem = () => {
         { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: "test case" },
         { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: "test result" }
     ]
-    return isLoading ? (
-        <ProblemSkeleton />
-    ) : (
+
+    if (problemDetailResponse.loading) {
+        return <ProblemSkeleton />
+    }
+
+    return (
         <ResizablePanelGroup
             direction="horizontal"
             className="rounded-lg border h-full w-full"

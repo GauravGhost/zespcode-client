@@ -61,7 +61,7 @@ const ProblemList = () => {
     return <ProblemListSkeleton />
   }
   return (
-    <div className="container mx-auto max-w-3xl h-screen">
+    <div className="container mx-auto max-w-4xl h-screen">
       <h1 className="text-2xl font-bold py-8">LeetCode Problems</h1>
       <ScrollArea className="h-[calc(100vh-120px)]">
         <div className="space-y-2 pr-4">
