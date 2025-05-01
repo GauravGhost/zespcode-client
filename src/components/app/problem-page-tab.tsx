@@ -62,7 +62,7 @@ const ProblemPageTab = ({
                     value={tab.id}
                     className="h-full"
                 >
-                    <div className="bg-secondary-background h-full overflow-auto">
+                    <div className="bg-secondary-background h-full overflow-auto rounded-b-lg">
                         {tab.content}
                     </div>
                 </TabsContent>

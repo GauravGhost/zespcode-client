@@ -37,7 +37,7 @@ const Problem = () => {
     }]
 
     const outputTab: TabItem[] = [
-        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>No Solution yet</h1></div> },
+        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>No test case yet</h1></div> },
         { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>You must run your code first</h1></div> }
     ]
 
@@ -48,33 +48,33 @@ const Problem = () => {
     return (
         <ResizablePanelGroup
             direction="horizontal"
-            className="rounded-lg border h-full w-full"
+            className="rounded-lg h-full w-full p-2 gap-1"
         >
             {/* Problem statement */}
-            <ResizablePanel defaultSize={50} className="overflow-auto">
-                <div className="p-1 h-full">
+            <ResizablePanel defaultSize={50} className="overflow-auto rounded-b-lg">
+                <div className="h-full">
                     <ProblemPageTab tabs={problemTabs} />
                 </div>
             </ResizablePanel >
 
-            <ResizableHandle withHandle className="p-[1.5px]" />
+            <ResizableHandle withHandle className="bg-transparent" />
 
             {/* Code + Output */}
             <ResizablePanel defaultSize={50} className="overflow-auto">
-                <ResizablePanelGroup direction="vertical" className="h-full">
+                <ResizablePanelGroup direction="vertical" className="h-full rounded-b-lg gap-1">
 
                     {/* Code Editor */}
                     <ResizablePanel defaultSize={75} className="overflow-auto h-full">
-                        <div className="p-1 h-full">
+                        <div className="h-full">
                             <ProblemPageTab tabs={codeEditorTab} />
                         </div>
                     </ResizablePanel>
 
-                    <ResizableHandle withHandle className="p-[1.5px]" />
+                    <ResizableHandle withHandle className="bg-transparent" />
 
                     {/* Output Section */}
                     <ResizablePanel defaultSize={25} className="overflow-auto h-full">
-                        <div className="p-1 h-full">
+                        <div className="h-full">
                             <ProblemPageTab tabs={outputTab} />
                         </div>
                     </ResizablePanel>
