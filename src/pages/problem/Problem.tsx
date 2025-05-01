@@ -30,15 +30,15 @@ const Problem = () => {
         label: "Solution",
         icon: "BookOpenCheck",
         iconColor: "text-yellow-500",
-        content: "solutions"
+        content: <div className="flex justify-center items-center h-full"><h1>No Solution yet</h1></div>
     }]
     const codeEditorTab: TabItem[] = [{
         id: "Code", label: "Code", icon: "Code2", iconColor: "text-green-500", content: <CodeEditor problemData={problemDetail} />,
     }]
 
     const outputTab: TabItem[] = [
-        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: "test case" },
-        { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: "test result" }
+        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>No Solution yet</h1></div> },
+        { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>You must run your code first</h1></div> }
     ]
 
     if (problemDetailResponse.loading) {
