@@ -1,36 +1,31 @@
+import { ProblemListResponse } from "@/types";
 import { Link } from "react-router"
-export interface Question {
-    id: number;
-    title: string;
-    difficulty: 'Easy' | 'Medium' | 'Hard';
-    acceptance: string;
-    tags: string[];
-}
+
 const getDifficultyClass = (difficulty: string) => {
     switch (difficulty) {
         case "Easy":
-            return "bg-green-100 text-green-800";
+            return "text-easy";
         case "Medium":
-            return "bg-yellow-100 text-yellow-800";
+            return "text-medium";
         default:
-            return "bg-red-100 text-red-800";
+            return "text-hard";
     }
 };
-const QuestionCard = ({ question }: { question: Question }) => (
-    <Link to={`/problems/${question.id}`} className="no-underline text-inherit">
-        <div className="p-4 border rounded-md mb-3 hover:bg-hover cursor-pointer">
-            <div className="flex justify-between">
-                <h3 className="font-medium">{question.title}</h3>
-                <span className={`px-2 py-1 rounded text-xs ${getDifficultyClass(question.difficulty)}`}>
-                    {question.difficulty}
-                </span>
-            </div>
-            <div className="flex justify-between mt-2 text-sm text-gray-500">
-                <div>Acceptance: {question.acceptance}</div>
-                <div className="flex gap-1">
-                    {question.tags.map(tag => (
-                        <span key={tag} className="bg-blue-100 text-blue-800 px-2 rounded text-xs py-1">{tag}</span>
-                    ))}
+
+interface QuestionCardProps {
+    question: ProblemListResponse;
+    isOdd?: boolean;
+}
+const QuestionCard = ({ question, isOdd }: QuestionCardProps) => (
+    <Link to={`/problems/${question.problemId}-${question.titleSlug}`} className="no-underline text-inherit">
+        <div className={`rounded-lg  px-6 py-3.5 shadow-sm transition-all hover:shadow-md cursor-pointer ${isOdd ? null : 'bg-muted'}`}>
+            <div className="flex justify-between items-center">
+                <h3 className="font-medium text-sm">{question.problemId}. {question.title}</h3>
+
+                <div className="flex justify-between text-sm text-gray-500">
+                    <span className={`rounded text-xs font-bold ${getDifficultyClass("Easy")}`}>
+                        {"Easy"}
+                    </span>
                 </div>
             </div>
         </div>

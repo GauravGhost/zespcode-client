@@ -10,14 +10,6 @@ export const QuestionCardSkeleton = () => (
       <Skeleton className="h-5 w-[200px]" />
       <Skeleton className="h-5 w-16" />
     </div>
-    <div className="flex justify-between mt-2">
-      <Skeleton className="h-4 w-24" />
-      <div className="flex gap-1">
-        {Array.from({ length: 2 }).map((_, i) => (
-          <Skeleton key={i} className="h-4 w-16" />
-        ))}
-      </div>
-    </div>
   </div>
 )
 
