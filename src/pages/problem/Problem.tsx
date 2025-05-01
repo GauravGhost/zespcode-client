@@ -1,17 +1,25 @@
 import ProblemPageTab, { TabItem } from "@/components/app/problem-page-tab"
 import CodeEditor from "@/components/code-editor/code-editor"
 import MarkdownViewer from "@/components/markdown-viewer/markdown-viewer"
+import { ProblemSkeleton } from "@/components/loader/problem-skeleton"
 import {
     ResizableHandle,
     ResizablePanel,
     ResizablePanelGroup,
 } from "@/components/ui/resizable"
 import { sampleMarkdown } from "@/lib/constant"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 const Problem = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const [markdownContent] = useState(sampleMarkdown);
+
+    // Simulate loading for demo purposes
+    useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 2000);
+        return () => clearTimeout(timer);
+    }, []);
     const problemTabs: TabItem[] = [{
         id: "Description",
         label: "Description",
@@ -34,7 +42,9 @@ const Problem = () => {
         { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: "test case" },
         { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: "test result" }
     ]
-    return (
+    return isLoading ? (
+        <ProblemSkeleton />
+    ) : (
         <ResizablePanelGroup
             direction="horizontal"
             className="rounded-lg border h-full w-full"
