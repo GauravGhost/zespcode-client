@@ -1,11 +1,11 @@
 import { Outlet } from "react-router"
-import { GenericNavbar } from "../app/generic-navbar"
+import { TopNavbar } from "../app/top-navbar"
 
-export function RootLayout() {
+export function ProblemLayout() {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex item-center h-[8vh]">
-        <GenericNavbar />
+        <TopNavbar />
       </div>
       <div className="overflow-hidden h-[92vh]">
         <Outlet />

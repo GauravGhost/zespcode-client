@@ -1,3 +1,4 @@
+import { ProblemLayout } from "@/components/layout/ProblemLayout";
 import { RootLayout } from "@/components/layout/RootLayout";
 import ProblemList from "@/pages/problem-list/ProblemList";
 import Problem from "@/pages/problem/Problem";
@@ -14,9 +15,15 @@ const routers = [
       {
         path: "problems",
         element: <ProblemList />
-      },
+      }
+    ]
+  },
+  {
+    path: "problems/:id",
+    element: <ProblemLayout />,
+    children: [
       {
-        path: "problems/:id",
+        path: "",
         element: <Problem />
       }
     ]
