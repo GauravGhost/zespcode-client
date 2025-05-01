@@ -6,6 +6,7 @@ interface UseGetApiResult<T> {
   loading: boolean;
   error: string | null;
   fetch: (url: string, options?: AxiosRequestConfig) => Promise<void>;
+  setData: React.Dispatch<React.SetStateAction<T | null>>;
 }
 interface ResponseTemplate<T> {
   success: boolean;
@@ -40,7 +41,7 @@ const useGetApi = <T>(initialUrl?: string, initialOptions?: AxiosRequestConfig):
     }
   }, [initialUrl, fetch]);
 
-  return { data, loading, error, fetch };
+  return { data, loading, error, fetch, setData };
 };
 
 export default useGetApi;
