@@ -4,12 +4,15 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '..
 import MarkdownViewer from '@/components/markdown-viewer/markdown-viewer';
 import { ProblemData } from '@/types';
 import { cn } from '@/lib/utils';
+import { useRef } from 'react';
 
 interface MarkdownViewerProps {
     problemData: ProblemData | null
 }
 
 const ProblemStatement = ({ problemData }: MarkdownViewerProps) => {
+    const topics = useRef<HTMLDivElement | null>(null);
+    const hints = useRef<HTMLDivElement | null>(null);
     return (
         <div
             className="h-[calc(100%-1.7rem)] overflow-auto p-4 pb-10">
@@ -18,14 +21,14 @@ const ProblemStatement = ({ problemData }: MarkdownViewerProps) => {
             </div>
             <div className='flex items-center justify-start mb-4 gap-2'>
                 <Badge variant={'outline'} className={cn('rounded-full px-3 py-1 text-easy bg-muted', `text-${problemData?.difficulty.toLowerCase()}`)}>{problemData?.difficulty}</Badge>
-                <Badge variant={'outline'} className='rounded-full px-3 py-1'><Icon name='TagIcon' /> Topics</Badge>
-                <Badge variant={'outline'} className='rounded-full px-3 py-1'><Icon name='LightbulbIcon' /> Hint</Badge>
+                <Badge variant={'outline'} className='rounded-full px-3 py-1 cursor-pointer' onClick={() => { topics.current?.scrollIntoView({ behavior: 'smooth' }) }}><Icon name='TagIcon' /> Topics</Badge>
+                <Badge variant={'outline'} className='rounded-full px-3 py-1 cursor-pointer' onClick={() => { hints.current?.scrollIntoView({ behavior: 'smooth' }) }}><Icon name='LightbulbIcon' /> Hint</Badge>
             </div>
 
             <MarkdownViewer content={problemData?.description ?? ""} />
 
             {/* Topic Section */}
-            <div className='border-b last:border-b-0'>
+            <div ref={topics} className='border-b last:border-b-0'>
                 <Accordion type="single" collapsible className="w-full">
                     <AccordionItem value={`item-1`} className='border-b'>
                         <AccordionTrigger className='hover:no-underline cursor-pointer'>
@@ -37,7 +40,7 @@ const ProblemStatement = ({ problemData }: MarkdownViewerProps) => {
             </div>
 
             {/* Hint Section */}
-            <div>
+            <div ref={hints}>
                 <Accordion type="single" collapsible className="w-full">
                     {
                         problemData?.hints.map((item, index) => {
