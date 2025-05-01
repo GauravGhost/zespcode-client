@@ -67,12 +67,14 @@ const ProblemList = () => {
       <h1 className="text-2xl font-bold py-8">LeetCode Problems</h1>
       <ScrollArea className="h-[calc(100vh-120px)]">
         <div className="space-y-2 pr-4">
+
           {questions.map(question => (
             <QuestionCard key={question.id} question={question} />
           ))}
           {loading && Array(3).fill(0).map((_, i) => (
             <QuestionCardSkeleton key={i} />
           ))}
+          
           <div ref={loaderRef} className="mt-4">
             {hasMore ? (
               <LoadingDots />

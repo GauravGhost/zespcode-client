@@ -1,37 +1,51 @@
-"use client"
-
-import * as React from "react"
-
 import { cn } from "@/lib/utils"
-
 import {
     NavigationMenu,
     NavigationMenuItem,
     NavigationMenuLink,
     NavigationMenuList,
-
 } from "@/components/ui/navigation-menu"
 import { ModeToggle } from "./mode-toggle"
 import ProfileMenu from "./profile-menu"
 import { Button } from "../ui/button"
 import { Icon } from "../ui/icon"
+import { navItems, actionButtons } from "@/lib/config/navbar"
+import { useLocation, useNavigate } from "react-router"
 
 export function TopNavbar() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
     return (
         <div className="flex justify-between items-center w-full px-4 py-2">
             <NavigationMenu>
                 <NavigationMenuList>
-                    <NavigationMenuItem>
-                        <NavigationMenuLink>
-                            Problems
-                        </NavigationMenuLink>
-                        {/* </Link> */}
-                    </NavigationMenuItem>
+                    {navItems.map((item) => (
+                        <NavigationMenuItem key={item.href}>
+                            <NavigationMenuLink
+                                className={cn(
+                                    "cursor-pointer",
+                                    location.pathname === item.href && "text-accent-foreground font-medium"
+                                )}
+                                onClick={() => navigate(item.href)}
+                            >
+                                {item.icon && <Icon name={item.icon} className="mr-2" />}
+                                {item.title}
+                            </NavigationMenuLink>
+                        </NavigationMenuItem>
+                    ))}
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center space-x-0.5">
-                <Button className="cursor-pointer bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground"><Icon name="Play" /> Run</Button>
-                <Button className="cursor-pointer bg-muted text-easy hover:bg-hover"><Icon name="UploadCloudIcon" /> Submit</Button>
+                {actionButtons.map((button) => (
+                    <Button
+                        key={button.title}
+                        onClick={button.onClick}
+                        className={cn("cursor-pointer", button.className)}
+                    >
+                        <Icon name={button.icon} /> {button.title}
+                    </Button>
+                ))}
             </div>
             <div className="flex items-center space-x-4">
                 <ModeToggle />
@@ -40,30 +54,3 @@ export function TopNavbar() {
         </div>
     )
 }
-
-const ListItem = React.forwardRef<
-    React.ComponentRef<"a">,
-    React.ComponentPropsWithoutRef<"a">
->(({ className, title, children, ...props }, ref) => {
-    return (
-        <li>
-            <NavigationMenuLink asChild>
-                <a
-                    ref={ref}
-                    className={cn(
-                        "block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
-                        className
-                    )}
-                    {...props}
-                >
-                    <div className="text-sm font-medium leading-none">{title}</div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
-                        {children}
-                    </p>
-                </a>
-            </NavigationMenuLink>
-        </li>
-    )
-})
-
-ListItem.displayName = "ListItem"
