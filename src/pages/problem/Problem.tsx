@@ -33,7 +33,7 @@ const Problem = () => {
         content: "solutions"
     }]
     const codeEditorTab: TabItem[] = [{
-        id: "Code", label: "Code", icon: "Code2", iconColor: "text-green-500", content: <CodeEditor />,
+        id: "Code", label: "Code", icon: "Code2", iconColor: "text-green-500", content: <CodeEditor problemData={problemDetail} />,
     }]
 
     const outputTab: TabItem[] = [

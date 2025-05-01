@@ -1,6 +1,6 @@
 import Editor, { OnMount } from '@monaco-editor/react';
-import { useState } from 'react';
-import { Language, Theme } from './types';
+import { useEffect, useState } from 'react';
+import { Theme } from './types';
 import {
     Select,
     SelectContent,
@@ -8,13 +8,18 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select"
-import { DEFAULT_CODE_BY_LANGUAGE, LANGUAGES, THEMES } from '@/lib/constant';
+import { FALLBACK_CODE, FALLBACK_LANGUAGE, THEMES } from '@/lib/constant';
 import { Separator } from '../ui/separator';
+import { ProblemData } from '@/types';
 
-const CodeEditor = () => {
-    const [language, setLanguage] = useState<Language>(LANGUAGES[0]);
+interface CodeEditorProps {
+    problemData: ProblemData | null
+}
+
+const CodeEditor = ({ problemData }: CodeEditorProps) => {
+    const [language, setLanguage] = useState<string>(FALLBACK_LANGUAGE);
     const [theme, setTheme] = useState<Theme>(THEMES[0]);
-    const [code, setCode] = useState(DEFAULT_CODE_BY_LANGUAGE[language.id]);
+    const [code, setCode] = useState("");
 
     function handleEditorChange(value: string | undefined) {
         if (value !== undefined) {
@@ -22,29 +27,36 @@ const CodeEditor = () => {
         }
     }
 
-    function handleLanguageChange(newLang: Language) {
+    function handleLanguageChange(newLang: string) {
         setLanguage(newLang);
-        setCode(DEFAULT_CODE_BY_LANGUAGE[newLang.id]);
+        setCode(problemData?.codeStubs.find((stub) => stub.languageSlug === newLang)?.userSnippet ?? FALLBACK_CODE);
     }
 
     function handleEditorDidMount(editor: Parameters<OnMount>[0]) {
         editor.focus();
     }
 
+    useEffect(() => {
+        if (problemData) {
+            setCode(problemData.codeStubs[0].userSnippet);
+            setLanguage(problemData.codeStubs[0].languageSlug);
+        }
+    }, [problemData])
+
     return (
         <div className="flex flex-col h-full">
             <div className="flex items-center gap-2 py-1 px-2">
-                <Select value={language.id} onValueChange={(value) => handleLanguageChange(LANGUAGES.find(lang => lang.id === value)!)}>
+                <Select value={language} onValueChange={(value) => handleLanguageChange(value)}>
                     <SelectTrigger>
-                        <SelectValue placeholder={language.name} />
+                        <SelectValue placeholder={language} />
                     </SelectTrigger >
                     <SelectContent>
-                        {LANGUAGES.map((lang) => (
+                        {problemData?.codeStubs.map((lang) => (
                             <SelectItem
-                                key={lang.id}
-                                value={lang.id}
+                                key={lang.languageSlug}
+                                value={lang.languageSlug}
                             >
-                                {lang.name}
+                                {lang.language}
                             </SelectItem >
                         ))}
                     </SelectContent>
@@ -70,7 +82,7 @@ const CodeEditor = () => {
             <div className="h-full overflow-auto">
                 <Editor
                     height={"100%"}
-                    language={language.id}
+                    language={language}
                     theme={theme.id}
                     value={code}
                     onChange={handleEditorChange}
