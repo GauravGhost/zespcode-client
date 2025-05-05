@@ -1,5 +1,5 @@
 import Editor, { OnMount } from '@monaco-editor/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { Theme } from './types';
 import {
     Select,
@@ -10,46 +10,80 @@ import {
 } from "@/components/ui/select"
 import { FALLBACK_CODE, FALLBACK_LANGUAGE, THEMES } from '@/lib/constant';
 import { Separator } from '../ui/separator';
-import { ProblemData } from '@/types';
+import { ProblemData, SubmissionPayload } from '@/types';
+import submissionPayload from '@/lib/store/submission';
 
 interface CodeEditorProps {
     problemData: ProblemData | null
 }
 
 const CodeEditor = ({ problemData }: CodeEditorProps) => {
-    const [language, setLanguage] = useState<string>(FALLBACK_LANGUAGE);
     const [theme, setTheme] = useState<Theme>(THEMES[0]);
-    const [code, setCode] = useState("");
 
-    function handleEditorChange(value: string | undefined) {
+    // Get submission state and actions from the store
+    const submission = submissionPayload(state => state.submission);
+    const setSubmission = submissionPayload(state => state.setSubmission);
+    const getSubmission = submissionPayload(state => state.getSubmission);
+
+    // Create submission update helper that doesn't depend on submission state
+    const updateSubmission = useCallback((updates: { code?: string; language?: string }) => {
+        if (!problemData) return;
+        
+        // Get current submission state at the time of update
+        const currentSubmission = getSubmission();
+        
+        // Create new submission object
+        const newSubmission: SubmissionPayload = {
+            code: updates.code ?? currentSubmission?.code ?? "",
+            language: updates.language ?? currentSubmission?.language ?? FALLBACK_LANGUAGE,
+            problemId: problemData._id,
+            userId: currentSubmission?.userId ?? ""
+        };
+        
+        setSubmission(newSubmission);
+    }, [problemData, getSubmission, setSubmission]); // No dependency on submission
+
+    const handleEditorChange = useCallback((value: string | undefined) => {
         if (value !== undefined) {
-            setCode(value);
+            updateSubmission({ code: value });
         }
-    }
+    }, [updateSubmission]);
 
-    function handleLanguageChange(newLang: string) {
-        setLanguage(newLang);
-        setCode(problemData?.codeStubs.find((stub) => stub.languageSlug === newLang)?.userSnippet ?? FALLBACK_CODE);
-    }
+    const handleLanguageChange = useCallback((newLang: string) => {
+        if (!problemData) return;
+        
+        const stub = problemData.codeStubs.find(
+            (stub) => stub.languageSlug === newLang
+        );
+        
+        const newCode = stub?.userSnippet ?? FALLBACK_CODE;
+        updateSubmission({ code: newCode, language: newLang });
+    }, [problemData, updateSubmission]);
 
-    function handleEditorDidMount(editor: Parameters<OnMount>[0]) {
+    const handleEditorDidMount = (editor: Parameters<OnMount>[0]) => {
         editor.focus();
-    }
+    };
 
+    // Initialize submission when problem data changes
     useEffect(() => {
-        if (problemData) {
-            setCode(problemData.codeStubs[0].userSnippet);
-            setLanguage(problemData.codeStubs[0].languageSlug);
+        if (problemData?.codeStubs && problemData.codeStubs.length > 0) {
+            updateSubmission({
+                code: problemData.codeStubs[0].userSnippet,
+                language: problemData.codeStubs[0].languageSlug
+            });
         }
-    }, [problemData])
+    }, [problemData, updateSubmission]);
 
     return (
         <div className="flex flex-col h-full">
             <div className="flex items-center gap-2 py-1 px-2">
-                <Select value={language} onValueChange={(value) => handleLanguageChange(value)}>
+                <Select 
+                    value={submission?.language ?? FALLBACK_LANGUAGE} 
+                    onValueChange={handleLanguageChange}
+                >
                     <SelectTrigger>
-                        <SelectValue placeholder={language} />
-                    </SelectTrigger >
+                        <SelectValue placeholder={submission?.language ?? FALLBACK_LANGUAGE} />
+                    </SelectTrigger>
                     <SelectContent>
                         {problemData?.codeStubs.map((lang) => (
                             <SelectItem
@@ -57,15 +91,18 @@ const CodeEditor = ({ problemData }: CodeEditorProps) => {
                                 value={lang.languageSlug}
                             >
                                 {lang.language}
-                            </SelectItem >
+                            </SelectItem>
                         ))}
                     </SelectContent>
                 </Select>
 
-                <Select value={theme.id} onValueChange={(value) => setTheme(THEMES.find(t => t.id === value)!)}>
+                <Select 
+                    value={theme.id} 
+                    onValueChange={(value) => setTheme(THEMES.find(t => t.id === value)!)}
+                >
                     <SelectTrigger>
                         <SelectValue placeholder={theme.name} />
-                    </SelectTrigger >
+                    </SelectTrigger>
                     <SelectContent>
                         {THEMES.map((t) => (
                             <SelectItem
@@ -81,10 +118,10 @@ const CodeEditor = ({ problemData }: CodeEditorProps) => {
             <Separator />
             <div className="h-full overflow-auto">
                 <Editor
-                    height={"100%"}
-                    language={language}
+                    height="100%"
+                    language={submission?.language ?? FALLBACK_LANGUAGE}
                     theme={theme.id}
-                    value={code}
+                    value={submission?.code ?? ""}
                     onChange={handleEditorChange}
                     onMount={handleEditorDidMount}
                     options={{

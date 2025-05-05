@@ -12,26 +12,38 @@ import { Icon } from "../ui/icon"
 import { navItems, ActionButton } from "@/lib/config/navbar"
 import { useLocation, useNavigate } from "react-router"
 import submissionPayload from "@/lib/store/submission"
+import { useState } from "react"
 
 export function TopNavbar() {
     const location = useLocation();
     const navigate = useNavigate();
     const payload = submissionPayload((state) => state.getSubmission());
+    const [loadingButton, setLoadingButton] = useState<string | null>(null);
+    
     const actionButtons: ActionButton[] = [
         {
             title: "Run",
             icon: "Play",
             className: "bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground",
             onClick: () => {
-                submitProblem(payload).catch((error) => {
-                    console.error("Error submitting problem:", error.message);
-                });
+                setLoadingButton("Run"); // Set this specific button as loading
+                submitProblem(payload)
+                    .catch((error) => {
+                        console.error("Error submitting problem:", error.message);
+                    })
+                    .finally(() => setLoadingButton(null));
             }
         },
         {
             title: "Submit",
             icon: "UploadCloudIcon",
             className: "bg-muted text-easy hover:bg-hover",
+            onClick: () => {
+                setLoadingButton("Submit");
+                setTimeout(() => {
+                    setLoadingButton(null);
+                }, 2000);
+            }
         }
     ];
     return (
@@ -55,15 +67,20 @@ export function TopNavbar() {
                 </NavigationMenuList>
             </NavigationMenu>
             <div className="flex items-center space-x-0.5">
-                {actionButtons.map((button) => (
-                    <Button
-                        key={button.title}
-                        onClick={button.onClick}
-                        className={cn("cursor-pointer", button.className)}
-                    >
-                        <Icon name={button.icon} /> {button.title}
-                    </Button>
-                ))}
+                {actionButtons.map((button) => {
+                    const isLoading = loadingButton === button.title;
+                    return (
+                        <Button
+                            disabled={loadingButton !== null}
+                            key={button.title}
+                            onClick={button.onClick}
+                            className={cn("cursor-pointer", button.className)}
+                        >
+                            {isLoading ? <Icon name={'Loader2'} className="animate-spin mr-1" /> : <Icon name={button.icon} className="mr-1" />} 
+                            {button.title}
+                        </Button>
+                    );
+                })}
             </div>
             <div className="flex items-center space-x-4">
                 <ModeToggle />
