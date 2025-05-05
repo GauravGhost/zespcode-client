@@ -11,27 +11,31 @@ import { Button } from "../ui/button"
 import { Icon } from "../ui/icon"
 import { navItems, ActionButton } from "@/lib/config/navbar"
 import { useLocation, useNavigate } from "react-router"
-import submissionPayload from "@/lib/store/submission"
 import { useState } from "react"
+import submissionPayload, { submissionSocketResponseState } from "@/lib/store/submission"
 
 export function TopNavbar() {
     const location = useLocation();
     const navigate = useNavigate();
     const payload = submissionPayload((state) => state.getSubmission());
     const [loadingButton, setLoadingButton] = useState<string | null>(null);
-    
+    const setSubmissionResponse = submissionSocketResponseState((state) => state.setSubmissionResponse);
     const actionButtons: ActionButton[] = [
         {
             title: "Run",
             icon: "Play",
             className: "bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground",
             onClick: () => {
-                setLoadingButton("Run"); // Set this specific button as loading
-                submitProblem(payload)
-                    .catch((error) => {
-                        console.error("Error submitting problem:", error.message);
+                setLoadingButton("Run");
+                if (payload) {
+                    submitProblem(payload).then((response) => {
+                        setSubmissionResponse(response.submissionResponse);
                     })
-                    .finally(() => setLoadingButton(null));
+                        .catch((error) => {
+                            console.error("Error submitting problem:", error.message);
+                        })
+                        .finally(() => setLoadingButton(null));
+                }
             }
         },
         {
@@ -76,7 +80,7 @@ export function TopNavbar() {
                             onClick={button.onClick}
                             className={cn("cursor-pointer", button.className)}
                         >
-                            {isLoading ? <Icon name={'Loader2'} className="animate-spin mr-1" /> : <Icon name={button.icon} className="mr-1" />} 
+                            {isLoading ? <Icon name={'Loader2'} className="animate-spin mr-1" /> : <Icon name={button.icon} className="mr-1" />}
                             {button.title}
                         </Button>
                     );

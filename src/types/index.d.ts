@@ -12,6 +12,9 @@ export interface ProblemData {
     isActive: boolean;
 }
 
+export type SubmissionResponse = {
+    _id: string;
+}
 interface TestCase {
     input: string;
     _id: string;
@@ -45,4 +48,4 @@ export type SubmissionPayload = {
     language: string;
     problemId: string;
     userId: string;
-} | null;
+};
