@@ -42,7 +42,7 @@ const TestResult = ({ submissionResponse, testCaseInput }: TestResultProps) => {
         <div className="flex items-center">
           <Icon name={statusIcon} className={`w-5 h-5 ${statusColor} mr-2`} />
           <span className={`font-medium ${statusColor}`}>
-            {isSuccess ? "Accepted" : "Error"}
+            {isSuccess ? "Accepted" : submissionResponse.response.status}
           </span>
         </div>
       </div>
