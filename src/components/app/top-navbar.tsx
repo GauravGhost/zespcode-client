@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { cn, submitProblem } from "@/lib/utils"
 import {
     NavigationMenu,
     NavigationMenuItem,
@@ -9,13 +9,31 @@ import { ModeToggle } from "./mode-toggle"
 import ProfileMenu from "./profile-menu"
 import { Button } from "../ui/button"
 import { Icon } from "../ui/icon"
-import { navItems, actionButtons } from "@/lib/config/navbar"
+import { navItems, ActionButton } from "@/lib/config/navbar"
 import { useLocation, useNavigate } from "react-router"
+import submissionPayload from "@/lib/store/submission"
 
 export function TopNavbar() {
     const location = useLocation();
     const navigate = useNavigate();
-
+    const payload = submissionPayload((state) => state.getSubmission());
+    const actionButtons: ActionButton[] = [
+        {
+            title: "Run",
+            icon: "Play",
+            className: "bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground",
+            onClick: () => {
+                submitProblem(payload).catch((error) => {
+                    console.error("Error submitting problem:", error.message);
+                });
+            }
+        },
+        {
+            title: "Submit",
+            icon: "UploadCloudIcon",
+            className: "bg-muted text-easy hover:bg-hover",
+        }
+    ];
     return (
         <div className="flex justify-between items-center w-full px-4 py-2">
             <NavigationMenu>

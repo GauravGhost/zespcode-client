@@ -24,15 +24,3 @@ export interface ActionButton {
   className?: string;
 }
 
-export const actionButtons: ActionButton[] = [
-  {
-    title: "Run",
-    icon: "Play",
-    className: "bg-muted text-muted-foreground hover:bg-hover hover:text-accent-foreground"
-  },
-  {
-    title: "Submit",
-    icon: "UploadCloudIcon",
-    className: "bg-muted text-easy hover:bg-hover"
-  }
-];

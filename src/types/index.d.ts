@@ -39,3 +39,10 @@ export type ProblemListResponse = {
     title: string;
     titleSlug: string
 }
+
+export type SubmissionPayload = {
+    code: string;
+    language: string;
+    problemId: string;
+    userId: string;
+} | null;
