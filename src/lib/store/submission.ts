@@ -1,20 +1,7 @@
 import { SubmissionPayload } from '@/types'
 import { create } from 'zustand'
 import { SubmissionSocketResponse } from '../socket/socketClient';
-
-interface SubmissionState {
-    submission: SubmissionPayload | null;
-    setSubmission: (submission: SubmissionPayload) => void;
-    clearSubmission: () => void;
-    getSubmission: () => SubmissionPayload | null;
-}
-
-interface SubmissionSocketResponseState {
-    submissionResponse: SubmissionSocketResponse | null;
-    setSubmissionResponse: (submissionResponse: SubmissionSocketResponse) => void;
-    clearSubmissionResponse: () => void;
-    getSubmissionResponse: () => SubmissionSocketResponse | null;
-}
+import { SubmissionSocketResponseState, SubmissionState } from '@/types/store';
 
 const submissionPayload = create<SubmissionState>((set, get) => ({
     submission: null,
