@@ -1,7 +1,7 @@
 import { io, Socket } from "socket.io-client";
 import { SOCKET_URL } from "../../api";
 
-export interface SubmissionResponse {
+export interface SubmissionSocketResponse {
     response: Response,
     userId: string,
     submissionId: string
@@ -34,9 +34,9 @@ class SocketService {
         this.socket.emit("setUserId", userId);
     }
 
-    public getSubmissionPayload(): Promise<SubmissionResponse> {
+    public getSubmissionPayload(): Promise<SubmissionSocketResponse> {
         return new Promise((resolve, reject) => {
-            this.socket.once("submissionPayloadResponse", (response: SubmissionResponse) => {
+            this.socket.once("submissionPayloadResponse", (response: SubmissionSocketResponse) => {
                 resolve(response);
             });
 

@@ -11,6 +11,7 @@ import { ProblemData } from "@/types"
 import useGetApi from "@/hooks/useGetApi"
 import { GET_PROBLEM_BY_TITLE_SLUG } from "@/api"
 import ProblemStatement from "./ProblemStatement"
+import TestCase from "./TestCase"
 
 
 const Problem = () => {
@@ -37,7 +38,7 @@ const Problem = () => {
     }]
 
     const outputTab: TabItem[] = [
-        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>No test case yet</h1></div> },
+        { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <TestCase problemData={problemDetail} /> },
         { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: <div className="flex justify-center items-center h-full"><h1>You must run your code first</h1></div> }
     ]
 
