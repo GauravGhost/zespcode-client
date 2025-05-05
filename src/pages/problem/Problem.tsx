@@ -13,13 +13,11 @@ import { GET_PROBLEM_BY_TITLE_SLUG } from "@/api"
 import ProblemStatement from "./ProblemStatement"
 import TestCase from "./TestCase"
 import TestResult from "./TestResult"
-import { submissionSocketResponseState } from "@/lib/store/submission"
 
 const Problem = () => {
     const { id } = useParams();
     const problemDetailResponse = useGetApi<ProblemData>(GET_PROBLEM_BY_TITLE_SLUG(id));
     const problemDetail = problemDetailResponse.data
-    const submissionSocketResponse = submissionSocketResponseState(state => state.getSubmissionResponse());
     const problemTabs: TabItem[] = [{
         id: "Description",
         label: "Description",
@@ -40,7 +38,7 @@ const Problem = () => {
 
     const outputTab: TabItem[] = [
         { id: "test-case", label: "Test Case", icon: "Terminal", iconColor: "text-green-500", content: <TestCase problemData={problemDetail} /> },
-        { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: <TestResult submissionResponse={submissionSocketResponse} /> }
+        { id: "test-result", label: "Test Result", icon: "CheckCircle", iconColor: "text-green-500", content: <TestResult /> }
     ]
 
     if (problemDetailResponse.loading) {
