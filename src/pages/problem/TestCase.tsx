@@ -66,7 +66,7 @@ const TestCase = ({ problemData }: TestCaseTabProps) => {
       >
         <div className="flex items-center px-2 py-1">
           <TabsList className="h-8">
-            {problemData.testCases.map((testCase, index) => (
+            {problemData.testCases.map((_testCase, index) => (
               <TabsTrigger 
                 key={`case-${index + 1}`} 
                 value={`case-${index + 1}`}
